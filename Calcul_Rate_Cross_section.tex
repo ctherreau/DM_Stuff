@@ -1,0 +1,685 @@
+\RequirePackage[l2tabu, orthodox]{nag}
+\documentclass[a4paper, twoside, openany, 11pt]{book}
+
+%===== PACKAGES ====================
+%----- Langue/Encodage -------------
+\usepackage[frenchb, english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+%----- Mise en page/Titrage --------
+\usepackage[top=1.75cm, bottom=1.75cm, left=2.25cm, right=1.75cm]{geometry}	% Marges
+\usepackage{fancyhdr}		% En-têtes/Pieds de page
+\usepackage{titlesec} 		% Titres
+\usepackage{titletoc} 		% Titres (TOC)
+
+%----- Outils caractères/texte -----
+\usepackage{lmodern} 		% Police
+%\usepackage[11pt]{moresize}
+\usepackage{microtype}		% Typographie avancée
+\usepackage{setspace} 		% Interlignage
+	%\onehalfspacing
+%\usepackage{ulem} 			% Soulignage
+\usepackage{textcomp} 		% Caractères spéciaux
+\usepackage{soul} 				% Hyphénation
+\usepackage{lettrine}
+\usepackage{url} 				% URL
+\usepackage{engord}			% Nombres ordinaux
+\usepackage{xspace}			% Espaces intelligentes
+
+%----- Composition -----------------
+\usepackage{multirow}			% Lignes fusionnées dans tables
+\usepackage{tabularx}			% Options tables
+\usepackage{booktabs}			% Belles tables
+\usepackage{dcolumn}				% Colonnes alignées
+    \newcolumntype{d}[1]{D{-}{\,\pm\,}{#1}}
+\usepackage{footmisc} 			% Options pieds de page
+\usepackage{enumitem} 			% Options listes
+	\setlist{nosep}
+\usepackage{tablefootnote}	% Notes dans tables
+\usepackage{scrextend} 		% Options KOMA-script
+\usepackage{fancybox}			% Options boîtes
+\usepackage{epigraph}			% Citations inspiratives
+	\renewcommand{\epigraphsize}{\normalsize}
+    \renewcommand{\textflush}{flushepinormal}
+    \setlength{\epigraphwidth}{0.35\textwidth}
+\usepackage[font={rmfamily,itshape}, listvskip]{quoting}	% Citations dans texte
+\usepackage{tocbibind}			% TOC avec biblio, etc.
+
+%----- Outils graphiques -----------
+\usepackage{color} 				% Couleurs
+\usepackage[usenames, dvipsnames, svgnames]{xcolor}	% Couleurs supplémentaires
+	\definecolor{BleuUniv}{RGB}{0,54,103}
+	\definecolor{VertUniv}{RGB}{212,215,0}
+\usepackage{graphicx} 			% Insertion figures
+%\graphicspath {Figures/}
+\usepackage{wrapfig} 			% Figures dans paragraphes
+\usepackage{subfig}				% Sous-figures
+\usepackage[font=footnotesize]{caption}	% Options légendes
+%\usepackage{subcaption}		% Options sous-légendes
+\usepackage{float} 				% Flottants
+\usepackage{tikz}					% Dessins tikz
+	\usetikzlibrary{patterns}
+	
+%----- Mathématiques/Sciences ------
+\usepackage{amsmath} 			% Composition
+\usepackage{amssymb} 			% Symboles supplémentaires
+%\usepackage{asmthm} 			% Environnements (théorèmes, etc.)
+\usepackage{mathtools}			% Améliorations (symboles, options, etc.)
+\usepackage{empheq}				% Encadrement environnements math
+\usepackage{sansmath}			% Police sans serif math
+\usepackage{xfrac}					% Petites fractions en texte
+\usepackage{mathrsfs}			% Remplacement matcal
+\usepackage[thickspace, thinqspace, amssymb, pstricks]{SIunits}	% Unités SI
+\usepackage{wasysym}				% Symboles pratiques (dont \photon)
+\usepackage{braket} 				% Notation bra-ket
+\usepackage{numprint}			% Composition valeur-unité
+    \npdecimalsign{.}
+\usepackage{isotope}				% Éléments et nombres importants
+\usepackage{verbatim}			% Citation code
+\usepackage{fancyvrb}			% Code dans notes
+	\VerbatimFootnotes
+\usepackage{listings}			% Environnement code personnalisé
+
+%----- Outils ----------------------
+\usepackage{etoolbox} 			% Nécessaire à certaines personnalisations
+\usepackage{lipsum}				% Génération de texte poubelle
+\usepackage{comment}				% Environnement de commentaire
+\usepackage[unicode, bookmarks=true, pdfstartview=Fit, pdftoolbar=true, pdfmenubar=true, pdftitle={Titre}, pdfauthor={Auteur}, pagebackref=true, linktoc=page, colorlinks=true, linkcolor=DimGray, citecolor=DimGray, urlcolor=BleuUniv]{hyperref}	% Liens hypertextes
+\usepackage[left]{lineno}	% Numéros de lignes
+\usepackage{ragged2e}			% Alignements
+
+%===== PARAMÈTRES ==================
+%----- Package Fancyhdr ------------
+\newcommand{\clearemptydoublepage}{%
+	\newpage{\pagestyle{empty}\cleardoublepage}}
+
+\fancypagestyle{perso}{%
+	\fancyhf{}
+	\fancyhead[RE]{\small\sffamily\leftmark}
+	\fancyhead[LO]{\small\sffamily\rightmark}
+	\fancyhead[RO,LE]{\small\sffamily\thepage}
+	%\renewcommand{\headrulewidth}{0pt}
+	\renewcommand{\footrulewidth}{0pt}}
+	
+\fancypagestyle{plain}{%
+	\fancyhf{}
+	\fancyfoot[C]{\small\sffamily\thepage}
+	\renewcommand{\headrulewidth}{0pt}
+	\renewcommand{\footrulewidth}{0pt}}
+\setlength{\headheight}{15pt}
+
+%----- Package Titlesec ------------
+\titleformat{\chapter}[display]
+		{\sffamily\filleft\LARGE}{\chaptertitlename\ \thechapter \enspace \titlerule[0.3mm]}{3pt}{\sffamily\bfseries\huge}
+		\titlespacing{\chapter}{0pt}{1.5cm}{2cm}
+		
+\titleformat{\section}
+		{\sffamily\Large\bfseries}{\thesection.}{0.5em}{\sffamily\Large\bfseries}
+		
+\titleformat{\subsection}
+		{\sffamily\large\bfseries}{\thesubsection.}{0.5em}{\sffamily\large\bfseries}
+		
+\titleformat{\subsubsection}
+		{\sffamily\normalsize\bfseries}{\thesubsubsection.}{0.5em}{\sffamily\normalsize\bfseries}
+		
+\setcounter{secnumdepth}{3}	% Numération jusqu'aux sous-sections
+
+%----- Package Titletoc ------------
+\titlecontents{chapter}% <section-type>
+  [0pt]% <left>
+  {\addvspace{1em}}% <above-code>
+  {\sffamily\bfseries\chaptertitlename\ \thecontentslabel\ --\ }% <numbered-entry-format>
+  {\sffamily\bfseries}% <numberless-entry-format>
+  {\sffamily\bfseries\hfill\contentspage}% <filler-page-format>
+  
+\titlecontents{section}%
+	[4em]%
+	{\addvspace{0pt}\sffamily}%
+	{\contentslabel[\thecontentslabel.]{25pt}}%
+	{}%
+	{\titlerule*[1pc]{.}\contentspage}%
+	[]%
+	
+\titlecontents{subsection}%
+	[6.92em]%
+	{\addvspace{0pt}\sffamily}%
+	{\contentslabel[\thecontentslabel.]{32pt}}%
+	{}%
+	{\titlerule*[1pc]{.}\contentspage}%
+	[]%
+	
+\titlecontents{subsubsection}%
+	[10.53em]%
+	{\addvspace{0pt}\sffamily}%
+	{\contentslabel[\thecontentslabel.]{39pt}}%
+	{}%
+	{\titlerule*[1pc]{.}\contentspage}%
+	[]%
+
+\setcounter{tocdepth}{5}	% Affichage total de la TOC
+
+%----- Interlignage hors setspace --
+%\linespread{1.1}\selectfont
+
+%----- Police dans tables ----------
+\let\oldtabular=\tabular
+\def\tabular{\small\oldtabular}
+
+%----- Tables ajustées -------------
+%\renewcommand\tabularxcolumn[1]{>{\Centering}p{#1}}
+\newcolumntype{Y}{>{\centering\arraybackslash}X}	% X centré
+
+%----- Package Caption -------------
+\captionsetup[figure]{name=Fig.}
+\captionsetup[figure]{labelsep=endash}
+%\captionsetup[subfigure]{subrefformat=simple,labelformat=simple,listofformat=subsimple}
+%\renewcommand\thesubfigure{(\alph{subfigure})}
+\captionsetup[subfigure]{justification=centering, labelformat=parens}
+
+%----- Package Listings ------------
+\lstset{basicstyle=\ttfamily\footnotesize,
+				breaklines=true,
+				breakatwhitespace=false,
+				language=C++,
+				showstringspaces=false,
+				alsoletter={<,>},
+				classoffset=0,
+				morekeywords={TCut},
+				keywordstyle=\color{ForestGreen},
+				classoffset=1,
+				morekeywords={<nom>, XCompton0, XCompton1, XCompton2},
+				keywordstyle=\color{Dandelion},
+				classoffset=0
+				}
+
+%----- Environnement résumé --------
+\makeatletter
+\newenvironment{abstract}{%
+	%\null\vfil
+	\@beginparpenalty\@lowpenalty
+	\begin{center}%
+		\bfseries\sffamily\abstractname
+		\normalsize\@endparpenalty\@M
+%  		\small\@endparpenalty\@M
+	\end{center}}%
+%{\par\vfil\null}
+\makeatother
+
+%----- Données générales -----------
+\title{Titre}
+\author{Auteur}
+\date\today
+
+%----- Commandes perso -------------
+\newcommand{\HRule}{\rule{\linewidth}{0.3mm}}
+\newcommand{\er}{\text{er}}
+\newcommand{\nr}{\text{nr}}
+\newcommand{\sZero}{\text{S1[0]}\xspace}
+\newcommand{\sOne}{\text{S1[1]}\xspace}
+\newcommand{\Dt}{\Delta t_{\text{S1}}\xspace}
+\newcommand{\cel}{\ensuremath{\mathit{c}}}
+\newcommand{\abs}[1]{\left\lvert#1\right\rvert}
+\newcommand{\norme}[1]{\left\lVert#1\right\rVert}
+
+\makeatletter
+\let\original@addcontentsline\addcontentsline
+\newcommand{\dummy@addcontentsline}[3]{}
+\newcommand{\DeactivateToc}{\let\addcontentsline\dummy@addcontentsline}
+\newcommand{\ActivateToc}{\let\addcontentsline\original@addcontentsline}
+\makeatother
+
+%===================================
+% Début du document
+%===================================
+
+\begin{document}
+
+
+\chapter[Ratecalculation]{WIMP Direct Detection principle}
+
+
+In 1985, M.Goodman and E.Witten proposed to extent the neutral current neutrino detection principle to the dark matter detection. Dark Matter particles (WIMP) are expected to interact with standard matter through elastic scattering, during which the WIMP will transfer a part of its energy through a nuclear recoil.
+
+In this chapter, we will describe the expected rate of a WIMP-Nucleus scattering, following the work of J.D. Lewin and P.F. Smith \cite{ArticleLewinSmith}, and others \cite{LectureArmengaud}, \cite{ArticleJungman}, \cite{ThesisMassoli} and \cite{ThesisKaixuan}.
+
+
+\section{Differential Rate}
+\label{sec:rate}
+
+The aim of this section is to determine the expected collision rate in a dark matter detection experiment (using a target of nuclear mass A). In practice, the detector allows the measurement of the number of events for a nuclear recoil energy larger than a threshold value, determined by the efficiency of the detector. To compare what the detector gives us and what we expect, we need to determine the expected differential rate $\frac{dR}{dE_R}$, where $E_R$ is the recoil energy.
+
+\medskip
+
+Let's start with the easy part, the collision rate R is gave by : 
+
+\begin{equation}
+\label{eq:rate}
+R = \phi \sigma N_{target}
+\end{equation}
+
+where 
+$\sigma $ is the WIMP-Nucleus scattering cross section (discussed in section \ref{sec:crosssection}), $N_{target}$ is the number of target nuclei exposed to the dark matter flux, and $\phi$ is the WIMP flux on Earth: 
+
+\begin{equation}
+\label{eq:flux}
+\phi=\frac{\rho_{0}}{m_{\chi}} \langle v \rangle
+\end{equation}
+
+with
+$\rho_{0}$ is the dark matter local density, $m_{\chi}$ is the WIMP mass and $ \langle v \rangle $ is the mean WIMP velocity (relative to the target). 
+
+The WIMP velocity follows a Maxwell-Boltzmann velocity distribution $f(v,v_E)$:
+
+\begin{equation}
+\label{eq:f(v)}
+f(v,v_E) = exp(\frac{-(v+v_E)^2}{v_0 ^2})
+\end{equation}
+
+Where $v$ is the WIMP velocity (relative to the target), $v_E$ is the Earth velocity (relative to the WIMP distribution) and $v_0$ is the most likely WIMP velocity ($v_0 \approx 220 km/s$)
+
+
+The collision rate per unit of mass  is : 
+
+\begin{equation}
+\label{eq:diffrate1}
+dR= \frac{\mathcal{N}_A}{A}\sigma v dn 
+\end{equation}
+
+where $dn$ is the differential particle density, which is  a function of the WIMP velocity : 
+
+\begin{equation}
+\label{eq:dn}
+dn = \frac{n_0}{k} f(v,v_E)d^3v
+\end{equation}
+
+with $n_0 = \frac{\rho_0}{m_\chi}$, the mean WIMP density and $k$ is a normalization constant. 
+
+
+\subsection{Determination of dn}
+
+\begin{equation*}
+dn = \frac{n_0}{k} f(v,v_E)d^3v
+\end{equation*}
+
+$k$ is a normalization constant such as $n_0= \int_0^{v_{esc}} dn$, with $v_{esc}$ the WIMP velocity for which the WIMP ca escape the galaxy attraction.
+
+For an isotropic distribution :
+
+\begin{align*}
+n_0 = \int_0^{v_{esc}} dn = \frac{n_0}{k} \int_0^{v_{esc}}  f(v,v_E)d^3v 
+\end{align*}
+Thus :
+\begin{align*}
+k&= \int_0^{2\pi} d\phi \int_{-1}^{+1} d(\cos \theta) \int_0^{v_{esc}} f(v,v_E) v^2 dv  \\
+&=4\pi \int_0^{v_{esc}} f(v,v_E) v^2 dv 
+\end{align*}
+
+To determine k, we first start with a simple case where $v_{esc} = +\infty$ and $v_E = 0$ :\footnote{$\int_{-\infty}^{+\infty} x^2 exp(-ax^2)dx = \frac{\sqrt{\pi}}{2a^{3/2}}$}
+
+\begin{align*}
+k_0&=4\pi \int_0^{+\infty} f(v,0) v^2 dv \\
+&=4\pi \int_0^{+\infty} v^2 exp(\frac{-v^2}{v_0 ^2}) dv \\
+&=(\pi v_0^2)^{3/2}
+\end{align*}
+
+Now if we take $ v_E \neq 0 $, we have : 
+
+\begin{equation*}
+(v +v_E)^2 = v^2+v_E ^2 + 2 v v_E \cos \theta 
+\end{equation*}
+
+and :
+
+\begin{align*}
+k_0&=\int_0^{2\pi} d\phi \int_{-1}^{+1} \int_0^{+\infty} exp(\frac{-(v^2+v_E^2 + 2 vv_E \cos \theta)}{v_0 ^2}) v^2 dv d(\cos \theta) \\
+&= 2\pi \int_0^{+\infty}  exp(\frac{-(v^2+v_E^2)}{v_0^2})( - \frac{v_0^2}{2vv_E })(exp(-\frac{2vv_E}{v_0^2})-exp(+\frac{2vv_E}{v_0^2}))v^2 dv \\
+&=\frac{\pi v_0^2}{v_E} \int_0^{+\infty} dv (exp(-\frac{(v-v_E)^2}{v_0^2})-exp(-\frac{(v+v_E)^2}{v_0^2})) \\
+&= \frac{\pi v_0^2}{v_E} \int_{-v_E}^{+\infty} dx (x+v_E)exp(-\frac{x^2}{v_0^2}) -\frac{\pi v_0^2}{v_E} \int_{v_E}^{+\infty} dx (x-v_E)exp(-\frac{x^2}{v_0^2}) \\
+&= \frac{\pi v_0^2}{v_E} (\int_{-v_E}^{+v_E} x exp(-\frac{x^2}{v_0^2}) dx + 2v_E \int_{0}^{+\infty} x exp(-\frac{x^2}{v_0^2}) dx) \\
+&=(\pi v_0^2)^{3/2}
+\end{align*}
+
+Finally, for  $ v_E \neq 0 $ and $ v_{esc} \neq +\infty $ : 
+
+\begin{equation*}
+k_1=4\pi \int_{0}^{v_{esc}} exp(-\frac{v^2}{v_0 ^2}) v^2 dv 
+\end{equation*}
+
+knowing that \footnote{$ erf(x)=\frac{2}{\sqrt{\pi}} \int_0 ^x exp(-t^2)dt $} : 
+
+\begin{equation*}
+ \int_{0}^{v_{esc}} exp(-\frac{v^2}{v_0^2}) dv  = v_0 \frac{\sqrt{\pi}}{2} erf(\frac{v_{esc}}{v_0})
+\end{equation*}
+
+we have :
+
+\begin{align*}
+k_1&=4\pi \int_{0}^{v_{esc}} exp(-\frac{v^2}{v_0^2})v^2dv \\
+&= \frac{4\pi v_0^2}{2}\frac{v_0\sqrt{\pi}}{2}erf(\frac{v_{esc}}{v_0})- \frac{4\pi v_0^2}{2}v_{esc}exp(-\frac{v_{esc}^2}{v_0^2}) \\
+&=k_0(erf(\frac{v_{esc}}{v_0}) - \frac{2}{\sqrt{\pi}} \frac{v_{esc}}{v_0}exp(-\frac{v_{esc}^2}{v_0^2}))
+\end{align*}
+
+
+
+\subsection{Determination of dR}
+Now, that we have determine the differential particle density, we can determine the differential collision rate dR.
+At "zero momentum transfer", the cross section is $\sigma = \sigma_0$.
+We define then $R_0$ as the total event rate (from $v_E =0$ to $v_{esc}=+\infty$). 
+
+\begin{equation}
+R_0 = \frac{2}{\sqrt{\pi}} \frac{\mathcal{N}_a}{A}\sigma_0 v_0 n_0
+\end{equation}
+
+\begin{equation}
+\label{eq:dRfinal}
+\boxed{ dR = R_0\frac{\sqrt{\pi}}{2 k v_0} v f(v,v_E) d^3v = R_0\frac{k}{k_0} \frac{1}{2\pi v_0^4} v f(v,v_E) d^3v }
+\end{equation}
+
+
+\subsection{Differential rate $\frac{dR}{dE_R}$}
+
+In practice, the detector allows the measurement of the number of events for a nuclear recoil energy larger than a threshold value. We need to determine the expected differential rate $\frac{dR}{dE_R}$, where $E_R$ is the recoil energy.
+
+In the center of mass frame, the recoil energy of the nucleus (of mass $m_N$) is : 
+
+\begin{equation}
+E_R=\frac{\vert \vec{q} \vert^2}{2m_N}
+\end{equation}
+
+With $\vec{q}$ the momentum transfer : $\vert \vec{q} \vert^2 = 2 \mu^2 v^2 (1- \cos \theta)$, where $\theta$ is the scattering angle in the center of mass frame and $\mu$ is the reduced mass of the system: 
+$\mu = \frac{m_\chi m_N}{m_\chi + m_N}$. 
+
+We can also write : 
+\begin{equation*}
+E_R=E_i r \frac{1-\cos \theta}{2}
+\end{equation*}
+
+With $r= \frac{4\mu^2}{m_\chi m_N}$, and $E_i$ is the incident WIMP energy.
+
+If we make the assumption that the scattering is isotropic (i.e. uniform in $\cos \theta$), then the recoil will be uniformly distributed within : $ 0 \leq E_R \leq r E_i $ and :
+
+\begin{equation}
+\frac{dR}{dE_R}= \int_{E_{min}}^{E_{max}} \frac{dR(E_i)}{E_i r}
+\end{equation}
+
+Where $E_{min}$ is the minimal WIMP velocity that can induced a nuclear recoil : $E_{min} =\frac{E_R}{r}$.
+
+\medskip
+Since $ E_i = \frac{1}{2} m_\chi v^2 $  and  $ E_0 = \frac{1}{2} m_\chi v_0^2 $, we can write : 
+
+\begin{equation*}
+\frac{dR}{dE_R}= \frac{1}{E_0 r}\int_{v_{min}}^{v_{max}} \frac{v^2}{v_0^2} dR(v)
+\end{equation*}
+
+Based on equation \ref{eq:dRfinal}, 
+
+\begin{equation}
+\frac{dR}{dE_R}= \frac{R_0}{E_0 r} \frac{k_0}{k} \frac{1}{2 \pi v_0 ^2} \int_{v_{min}}^{v_{max}}\frac{f(v,v_E) d^3v}{v}
+\end{equation}
+
+Where $v_{min}$ is the minimal WIMP velocity that induced a nuclear recoil : $ v_{min} = \sqrt{\frac{2E_{min}}{m_{\chi}}} = \sqrt{\frac{E_R}{E_0 r}} v_0 $`
+
+\medskip
+As for the differential WIMP density, we can integrate $\frac{dR}{dE_R}$ for different cases : 
+
+For $v_E = 0$ and $v_{esc} = + \infty $ : 
+\begin{align*}
+\frac{dR(0,+\infty)}{dE_R}&= \frac{R_0}{E_0 r} \frac{k_0}{k_0} \frac{4 \pi}{2 \pi v_0 ^2} \int_{v_{min}}^{+ \infty} exp(- \frac{v^2}{v_0 ^2}) v dv \\
+&= \frac{R_0}{E_0 r} exp(-\frac{E_R}{E_0 r})
+\end{align*}
+
+
+For $v_E = 0$ and $v_{esc} \neq + \infty $ : 
+ 
+\begin{align*}
+\frac{dR(0,v_{esc})}{dE_R}&= \frac{R_0}{E_0 r} \frac{k_0}{k_1} \frac{4 \pi}{2 \pi v_0 ^2} \int_{v_{min}}^{v_{esc}} exp(- \frac{v^2}{v_0 ^2}) v dv \\
+&= \frac{R_0}{E_0 r} \frac{k_0}{k_1} \int_{E_R/E_0}^{v_{esc}^2/v_0^2} exp(-x) dx \\
+&= \frac{k_0}{k_1} ( \frac{dR(0,+\infty}{dE_R} -  \frac{R_0}{E_0 r}  exp(-\frac{v_{esc}^2}{v_0^2}))
+\end{align*}
+
+Finally, for $v_E \neq 0$ and $v_{esc} \neq + \infty $, the calculation is similar to the determination of $k_1$: 
+
+\begin{equation}
+\label{eq:diffrate_final}
+\boxed{\frac{dR(v_E,v_{esc})}{dE_R} = \frac{R_0}{E_0 r} \frac{k_0}{k} \left[  \frac{\sqrt{\pi}}{4} \frac{v_0}{v_E} (erf(\frac{v_{min}+v_E}{v_0}) - erf(\frac{v_{min}-v_E}{v_0}) ) - exp(-\frac{v_{esc}^2}{v_0^2})      \right]  }
+\end{equation}
+
+
+\subsection{Annual Modulation}
+
+The collision rate between WIMP and a target on Earth depends on the detector's (Earth's) relative velocity to the dark matter halo $v_E$. As shown in figure \ref{fig:annualmod}, when the Earth orbits around the Sun, its velocity is added to the Sun's velocity($v_0$) in summer and subtracted in winter. Thereby, the event rate will be largest in summer (with a peak in June) than in winter. This phenomena is called the signal annual modulation.
+
+\begin{figure}[h]
+	\centering
+     \includegraphics[width=0.4\textwidth]{Figures/annualmod.jpg}
+	\caption{Relative Earth's velocity to the dark matter halo. The Earth velocity is added to the Sun's velocity in June and subtracted in December.}
+    \label{fig:annualmod}
+\end{figure}
+
+The relative Earth's velocity to the dark matter halo is gave by : 
+
+\begin{equation}
+v_E (t) = v_0 (1,05 + 0,07 \cos(\omega t))
+\end{equation}
+
+Where $1,05 v_0$ is the relative Sun's velocity to the Galaxy frame and $ \omega ,= \frac{2 \pi }{1 year},$ is the annual rotation of the Earth. The 7\% amplitude modulation is due to the Earth's rotation around the Sun. If the statistics is sufficient, the annual modulation of the dark matter rate gives an additional evidence to distinguish real signal from background. 
+
+\subsection{Conclusion}
+
+In this section, we have determine the differential rate expected in a direct detection experiment using a detector on Earth, but only in a "kinematic" point of view. In the next section, we will study the WIMP-Nucleus interaction cross-section and the nuclear form factor correction needed to correctly determine the differential event rate.
+
+\section{Cross Section}
+\label{sec:crosssection}
+
+The cross-section $\sigma$, previously used, is the WIMP-nucleus cross-section, that means the interaction cross-section between a WIMP and a nucleus that encloses A nucleons.
+
+This cross-section depends on : 
+
+\begin{itemize}
+\item The WIMP-quark interaction : it is calculated from the effective Lagrangian that described the interaction of the WIMP with quarks and gluons.
+\item The distribution of quarks in the nucleons : it is calculated from the hadronic matrix elements 
+\item The distribution of nucleons in the nucleus  : the spin and the scalar components of nucleons are added to obtain a matrix elements of WIMP-Nucleus cross section as a function of the momentum transfer. 
+\end{itemize}
+
+Since, the WIMP-Nucleus scattering occurs in the "extreme" non-relativistic limit\footnote{The mean WIMP velocity is 220 km/s}, only two cases are considered : the spin-spin interaction (WIMP is coupling to the nuclear spin) and the scalar interaction (WIMP is coupling to the nucleus mass).
+
+
+\subsection{From Factor Correction}
+\label{subsec:FormFactor}
+
+The differential rate determined in the previous section have been obtained under the assumption of a "zero momentum transfer" :  $ \sigma = \sigma_0$. This assumption allows us to neglect the correction needed to take into account the nucleus shape, which can be expressed into the nuclear form factor : 
+
+\begin{equation}
+\label{eq:cross_form_factor}
+\sigma = \sigma_0 F^2(qr_n)
+\end{equation}
+
+Where $F(qr_n)$ is the nuclear form factor, $r_n$ is the effective nuclear radius.
+The quantity $qr_n/\hslash$ is dimensionless. 
+
+In the plane wave approximation, the form factor is the Fourier Transformation of the density distribution of scattering center $\rho (r)$. 
+
+\begin{equation}
+F(q) = \int \rho (r) exp(iqr) d^3r
+\end{equation}
+
+With an isotropic density : 
+
+\begin{align*}
+F(q) &= \int_{0}^{2 /pi} d\phi \int_{r} r^2 \rho (r) \left[ \int_{-1}^{+1} exp(iqr \cos \theta) d(\cos\theta)\right]  dr \\
+&= \frac{4\pi }{q} \int_{0}^{+\infty} r \sin (qr) \rho (r) dr
+\end{align*}
+
+The expression of $\rho(r)$ can be determined for the two interactions : the spin dependent WIMP-Nucleus scattering and the spin independent one. 
+
+
+For the spin dependent interaction, we consider that the interaction take place between the WIMP and the single outer shell nucleon ("thin shell approximation") : 
+
+\begin{equation}
+F(qr_n)= \frac{\sin(qr_n)}{q r_n}
+\end{equation} 
+
+For the spin independent interaction, we consider that the interaction take place between the WIMP and the whole nucleus ("solid sphere approximation"):
+
+\begin{equation}
+F(qr_n)= 3(\frac{\sin(qr_n)}{(q r_n)^3}- \frac{\cos(qr_n)}{(q r_n)^2})
+\end{equation} 
+
+Notice that the Helm profile is commonly used (since it as the advantage to give an analytic expression for the form factor) : 
+
+\begin{equation}
+F(qr_n)= 3 \frac{j_1(qr_n)}{(q r_n)} exp(-\frac{(qs)^2}{2})
+\end{equation} 
+
+Where $j_1 (x) = \frac{\sin (x)}{x^2} -\frac{\cos (x)}{x} $ and $s$ is the nuclear skin thickness.
+
+\subsection{Spin Correction}
+
+The final step to determine the expected event rate is to "correct" the cross-section $\sigma_0$ depending on the spin interaction. The interaction cross-section can be write as : 
+\begin{equation}
+\sigma_0 = 4 G_F^2 \mu^2 C
+\end{equation}
+
+Where, $G_F$ is the Fermi coupling constant, $\mu$ is the reduced mass of the system and $C$ is dimensionless number that includes all the "particle physics", and that depends on the type of interaction (spin independent or spin dependent).
+
+\subsubsection*{Spin Dependent Cross Section}
+
+ \begin{equation}
+  C_{SD} = \frac{8}{\pi} \Lambda^2 J(J+1) 
+ \end{equation}
+ 
+ Where : 
+ \begin{equation}
+ \Lambda = \frac{1}{J} \left[ a_p \langle S_p \rangle +  a_n \langle S_n \rangle \right]
+ \end{equation}
+ 
+With : 
+\begin{itemize}
+\item $a_p$ : the effective WIMP-proton coupling 
+\item $a_n$ : the effective WIMP-neutron coupling 
+\item $\langle S_p \rangle$ : the value of the proton spin in the nucleus
+\item $\langle S_n \rangle$ : the value of the neutron spin in the nucleus
+\item J : the total nuclear spin
+\end{itemize}
+
+In order to provide limits independently of the WIMP model, we can separate the proton and the neutron contribution : 
+
+\begin{equation}
+C_{SD} ^{p,n} = \frac{8}{\pi}\left[ a_{p,n} \langle S_{p,n} \rangle \right]^2 \frac{(J+1)}{J} 
+\end{equation}
+
+Thereby : 
+
+\begin{equation}
+\sigma_0^{p,n} = 4 G_F^2 \mu^2 C_{SD} ^{p,n} 
+\end{equation}
+
+With the total cross-section : 
+
+\begin{equation}
+\sigma_0^{SD} = (\sqrt{\sigma_0^p} \pm \sqrt{\sigma_0^n} )^2
+\end{equation}
+
+
+If we assume that the total WIMP-Nucleus cross-section is dominated by one or the other contribution (proton or neutron), then we can convert a limits on $\sigma_0$ into a limits on a single proton (or neutron) $\sigma_0^{p,n}$, allowing the comparison between several experiment, using different target. 
+\begin{equation}
+\sigma_0^{p,n}= \sigma_0^{SD,lim} \frac{\mu_{p,n}^2}{\mu^2} \frac{1}{C_{SD}^{p,n}/C_{p,n}}
+\end{equation}
+
+Where $C_{p,n}$ is the proton/neutron cross section enhancement factor. For free nucleons : $C_{p,n} = \frac{6a_{p,n}^2}{\pi}$. Notice that using the ratio $ C_{SD}^{p,n}/C_{p,n} $ cancel the $a_{p,n}$ terms contained in the WIMP-nucleus cross-section, giving the wanted model-independent cross-section. 
+
+
+\subsubsection*{Spin Independent Cross Section}
+
+\begin{equation}
+  C_{SI} = \frac{1}{\pi G_F^2} \left[Zf_p + (A-Z)f_n \right]^2
+ \end{equation}
+ 
+ Where $f_n$ is the WIMP-neutron coupling,  $f_p$ is the WIMP-proton coupling, $Z$ is the number of protons and $A-Z$ is the number of neutrons. 
+ In general, $f_p \approx f_n$, hence :
+ 
+ \begin{align}
+  C_{SI} = \frac{1}{\pi G_F^2} (Af_p)^2 \\
+ \sigma_0^{SI} = \frac{4}{\pi} \mu^2 A^2 f_p^2 = \frac{A^2 \mu^2}{\mu_p^2} \sigma_0^p
+ \end{align}
+
+We can then compare the cross-section limits from different experiments with different target nuclei, thanks to the WIMP-proton cross-section limits: 
+
+\begin{equation}
+\sigma_p^{lim}= \sigma_0^{SI,lim} \frac{\mu_{p,n}^2}{\mu^2} \frac{1}{A^2}
+\end{equation}
+
+
+\section{Example}
+
+In this section, I determined the number of event we can expect in a direct detection experiment using 1 ton of liquid xenon as a target and assuming that: 
+\begin{itemize}
+\item the interaction is spin independent : $\sigma_0 = \sigma_p \frac{A^2 \mu^2}{\mu_p^2}$, with $\sigma_p=2.10^{-47} cm^{-2}$
+\item the annual modulation is negligible 
+\item the local density $\rho_0$ is  $\rho_0=0.3 GeV/c^2$
+\end{itemize}
+
+In a first step, I computed the differential rate :
+\begin{equation}
+\frac{dR}{dE_R}= \frac{\sigma_0 \rho_0}{4 v_E m_\chi \mu^2} F(q)^2 \left[erf(\frac{v_{min}+v_E}{v_0})-erf(\frac{v_{min}-v_E}{v_0})\right]
+\end{equation}
+
+For $m_\chi = 35 GeV/c^2$, the differential rate as a function of the recoil energy is gave in figure \ref{fig:diffrate35GeV}.
+
+\begin{figure}[h]
+	\centering
+     \includegraphics[width=0.7\textwidth]{Figures/rate35GeV.png}
+	\caption{Differential Rate as a function of the nuclear recoil energy, for a WIMP mass of $35 GeV/c^2$ and $\sigma_p =2.10^{-47} cm^{-2}$.}
+    \label{fig:diffrate35GeV}
+\end{figure}
+
+The detector efficiency of XENON1T is gave in figure \ref{fig:Xe1Teff}. The lower efficiency limits (i.e. around 4~keV) is due to the detection and scintillation thresholds. The upper efficiency limits (around 50~keV) results from the restriction of the data to a search region : $3 PE < S1 < 70 PE$. The upper limit of this search region is determined as the limit where the  background starts to be larger by more than one order of magnitude than the signal from a WIMP with a mass of $m_\chi= 100 GeV/c^2$, and with a WIMP-Nucleon cross section of $\sigma_p = 2.10^{-47} cm^{-2}$.
+
+
+
+The expected number of event as a function of the nuclear recoil energy  is gave in figure \ref{fig:totnumberevent35GeV}. This number of event is the convolution of the differential Rate (figure \ref{fig:diffrate35GeV}) and the detector efficiency (figure \ref{fig:Xe1Teff}).
+
+
+Finally, the total expected number of event as a function of the WIMP mass is gave in figure \ref{fig:toteventWIMPmass}. This figure was obtained by integrate the expected number of events (figure \ref{fig:totnumberevent35GeV}) over all the nuclear recoil energy, for each considered WIMP mass.
+
+
+\begin{figure}[h]
+	\centering
+     \includegraphics[width=0.5\textwidth]{Figures/Xe1Teff.png}
+	\caption{XENON1T efficiency as a function of the nuclear energy recoil}
+    \label{fig:Xe1Teff}
+\end{figure}
+
+
+\begin{figure}[h]
+	\centering
+     \includegraphics[width=0.5\textwidth]{Figures/totnumberevent35GeV.png}
+	\caption{Expected number of events as a function of the nuclear recoil energy, for a WIMP mass of $35 GeV/c^2$ and $\sigma_p =2.10^{-47} cm^{-2}$.}
+    \label{fig:totnumberevent35GeV}
+\end{figure}
+
+
+\begin{figure}[h]
+	\centering
+     \includegraphics[width=0.5\textwidth]{Figures/numbereventmass.png}
+	\caption{Expected number of events as a function of the WIMP mass, for $\sigma_p =2.10^{-47} cm^{-2}$.}
+    \label{fig:toteventWIMPmass}
+\end{figure}
+
+
+%----- Bibliographie ---------------
+%\nocite{*}
+
+\renewcommand\bibname{References}
+\markboth{\bibname}{}
+\rhead{\nouppercase{\normalsize\sffamily\leftmark}}
+
+\bibliographystyle{unsrt}
+{\setstretch{0.9}\footnotesize
+\bibliography{Bibliographie}
+}%{\protect\pagestyle{plain_bib}}
+%\addcontentsline{toc}{chapter}{References}
+
+
+\end{document}
